@@ -8,7 +8,7 @@ https://jguertler23.github.io/javascript-academy/
 
 ## Funktionen
 
-- **42 Lektionen** – von JavaScript-Grundlagen bis zu Projektübungen.
+- **19 Lektionen** – von JavaScript-Grundlagen bis zu Projektübungen.
 - **Erklärungen und Beispiele** zum schrittweisen Lernen.
 - **Code-Editor im Browser**, um JavaScript praktisch auszuprobieren.
 - **Aufgaben und Quizfragen**, um Wissen zu überprüfen.
