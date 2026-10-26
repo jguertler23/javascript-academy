@@ -118,7 +118,9 @@ function answerQuiz(i){const l=lessons[state.current],ok=i===l.quiz.correct;docu
 function go(i){state.current=Math.max(0,Math.min(lessons.length-1,i));persist();render();window.scrollTo({top:0,behavior:"smooth"});}
 $("lessonNav").addEventListener("click",e=>{const b=e.target.closest("[data-lesson]");if(b)go(Number(b.dataset.lesson));});
 $("goals").addEventListener("change",e=>{if(e.target.dataset.goal!==undefined){state.goals[state.current+"-"+e.target.dataset.goal]=e.target.checked;persist();}});
-$("themeBtn").addEventListener("click",()=>{state.dark=!state.dark;document.body.style.setProperty("--bg",state.dark?"#101722":"#f4f7fb");document.body.style.setProperty("--panel",state.dark?"#1b2635":"#fff");document.body.style.setProperty("--ink",state.dark?"#edf2f8":"#172033");document.body.style.setProperty("--muted",state.dark?"#a9b7ca":"#64748b");document.body.style.setProperty("--line",state.dark?"#354256":"#e3e9f2");document.documentElement.style.setProperty("--ring-inner-bg", state.dark ? "#1b2635" : "white");});
+function applyTheme(){document.body.style.setProperty("--bg",state.dark?"#101722":"#f4f7fb");document.body.style.setProperty("--panel",state.dark?"#1b2635":"#fff");document.body.style.setProperty("--ink",state.dark?"#edf2f8":"#172033");document.body.style.setProperty("--muted",state.dark?"#a9b7ca":"#64748b");document.body.style.setProperty("--line",state.dark?"#354256":"#e3e9f2");document.documentElement.style.setProperty("--ring-inner-bg",state.dark?"#1b2635":"white");}
+$("themeBtn").addEventListener("click",()=>{state.dark=!state.dark;persist();applyTheme();});
+applyTheme();
 render();
 
 ;
