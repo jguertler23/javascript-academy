@@ -327,4 +327,5 @@ document.documentElement.classList.add("academy-ready");
       if (runButton) runButton.click();
     }
   });
+  renderLessonNotes();
 })();
