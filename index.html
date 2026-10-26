@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript Academy – lokal lernen</title>
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="brand"><div class="logo">JS</div><div><strong>JavaScript</strong><small>Schritt für Schritt</small></div></div>
+  <div class="nav-label">Lernpfad</div>
+  <nav id="lessonNav" class="lesson-nav" aria-label="Lektionen"></nav>
+  <div class="side-foot">📘 <strong>Deine Lernakademie</strong><br>Dein Fortschritt wird automatisch gespeichert.<br><small>42 Lektionen · Grundlagen bis Projekte</small></div>
+</aside>
+<main class="main">
+  <header class="topbar">
+    <div class="top-progress"><div class="progress-label"><span id="progressText">Fortschritt: 0 von 42 Lektionen</span><strong id="progressPercent">0%</strong></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div></div>
+    <div class="top-actions"><button class="small-btn" id="themeBtn" title="Darstellung wechseln">◐</button></div>
+  </header>
+  <div class="layout">
+    <section class="card lesson-card" id="lessonMain"><div class="empty">Lektion wird geladen …</div></section>
+    <aside class="right-col">
+      <section class="card side-card">
+        <h3>Dein Fortschritt</h3>
+        <div class="ring-wrap"><div class="ring" id="progressRing"><span id="ringText">0%</span></div></div>
+        <div class="stat">☑ <span id="doneCount">0 von 42 Lektionen abgeschlossen</span></div>
+        <div class="stat">✎ <span id="quizCount">0 Quizfragen richtig</span></div>
+        <div class="stat">◷ <span id="timeText">Lerne in deinem Tempo</span></div>
+      </section>
+      <section class="card side-card"><h3>Lernziele für diese Lektion</h3><div id="goals"></div></section>
+      <section class="card side-card tip"><h3>💡 Tipp</h3><p>Schreibe die Beispiele selbst ab, ändere Werte und beobachte, was passiert. Fehler gehören zum Lernen.</p></section>
+    </aside>
+  </div>
+</main>
+</div>
+
+
+
+
+<script src="main.js" defer></script>
+</body>
+</html>
