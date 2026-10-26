@@ -231,3 +231,100 @@ render();
 ;
 
 document.documentElement.classList.add("academy-ready");
+
+// Editor- und Lernkomfort: Tastaturbedienung sowie persönliche Notizen je Lektion.
+(function () {
+  if (!state.lessonNotes || typeof state.lessonNotes !== "object") state.lessonNotes = {};
+
+  function renderLessonNotes() {
+    const main = document.getElementById("lessonMain");
+    if (!main) return;
+    const previous = document.getElementById("lessonNotesPanel");
+    if (previous) previous.remove();
+    const index = state.current;
+    const panel = document.createElement("section");
+    panel.className = "learning-feature-section lesson-notes-panel";
+    panel.id = "lessonNotesPanel";
+    panel.innerHTML =
+      '<div class="learning-feature-heading"><div><h2>Meine Notizen</h2><p>Halte eigene Erklärungen, Fragen oder Merksätze zu dieser Lektion fest. Deine Notizen werden automatisch in diesem Browser gespeichert.</p></div><span class="notes-save-status" id="lessonNotesStatus" aria-live="polite">Lokal gespeichert</span></div>' +
+      '<label class="lesson-notes-label" for="lessonNotesInput">Persönliche Notizen · ' + (index + 1) + '. Lektion</label>' +
+      '<textarea id="lessonNotesInput" class="lesson-notes-input" rows="5" placeholder="Was hast du gelernt? Was möchtest du noch üben?">' +
+      String(state.lessonNotes[index] || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") +
+      '</textarea><div class="lesson-notes-actions"><button type="button" class="feature-action" id="downloadLessonNotes">Notizen herunterladen</button><button type="button" class="feature-action notes-clear" id="clearLessonNotes">Notizen dieser Lektion löschen</button></div>';
+    main.appendChild(panel);
+  }
+
+  const previousRender = window.render;
+  if (typeof previousRender === "function") {
+    window.render = function () {
+      previousRender();
+      renderLessonNotes();
+    };
+  }
+
+  document.addEventListener("input", function (event) {
+    if (event.target && event.target.id === "lessonNotesInput") {
+      state.lessonNotes[state.current] = event.target.value;
+      persist();
+      const status = document.getElementById("lessonNotesStatus");
+      if (status) status.textContent = "Gespeichert";
+    }
+  });
+
+  document.addEventListener("click", function (event) {
+    if (event.target.closest("#clearLessonNotes")) {
+      state.lessonNotes[state.current] = "";
+      persist();
+      const input = document.getElementById("lessonNotesInput");
+      if (input) input.value = "";
+      const status = document.getElementById("lessonNotesStatus");
+      if (status) status.textContent = "Notizen gelöscht";
+    }
+    if (event.target.closest("#downloadLessonNotes")) {
+      const note = String(state.lessonNotes[state.current] || "");
+      const title = lessons[state.current].short || "Lektion";
+      const blob = new Blob(["Notizen: " + title + "\n\n" + note + "\n"], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "javascript-academy-notizen-" + (state.current + 1) + ".txt";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+  });
+
+  // Editor: Tab fügt Leerzeichen ein, Enter übernimmt Einrückung, Strg+Enter führt aus.
+  document.addEventListener("keydown", function (event) {
+    const editor = event.target;
+    if (!editor || editor.id !== "codeInput") return;
+
+    if (event.key === "Tab") {
+      event.preventDefault();
+      editor.setRangeText("  ", editor.selectionStart, editor.selectionEnd, "end");
+      editor.dispatchEvent(new Event("input", { bubbles: true }));
+      if (typeof updateEditor === "function") updateEditor();
+      return;
+    }
+
+    if (event.key === "Enter" && !event.shiftKey && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      const start = editor.selectionStart;
+      const before = editor.value.slice(0, start);
+      const currentLine = before.slice(before.lastIndexOf("\n") + 1);
+      const indent = (currentLine.match(/^\s*/) || [""])[0];
+      const extraIndent = /\{\s*$/.test(currentLine) ? "  " : "";
+      event.preventDefault();
+      editor.setRangeText("\n" + indent + extraIndent, editor.selectionStart, editor.selectionEnd, "end");
+      editor.dispatchEvent(new Event("input", { bubbles: true }));
+      if (typeof updateEditor === "function") updateEditor();
+      return;
+    }
+
+    if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault();
+      const runButton = document.getElementById("runCode");
+      if (runButton) runButton.click();
+    }
+  });
+})();
