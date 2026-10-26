@@ -124,3 +124,12 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-ser
 .review-empty{padding:10px;border-radius:8px;background:var(--blue2);color:var(--ink)}
 .review-count{display:inline-flex;align-items:center;justify-content:center;min-width:24px;padding:2px 8px;border-radius:999px;background:var(--blue2);color:var(--blue);font-weight:750}
 @media(max-width:650px){.comparison-grid{grid-template-columns:1fr}.learning-feature-section{padding:14px}.comparison-row{grid-template-columns:34px minmax(0,1fr) minmax(0,1fr);gap:5px;padding:7px 5px}}
+
+/* Editor- und Lernkomfort: persönliche Notizen sowie klare Tastaturbedienung. */
+.lesson-notes-panel{margin-top:16px}
+.lesson-notes-label{display:block;margin:14px 0 7px;font-size:13px;font-weight:700;color:var(--ink)}
+.lesson-notes-input{display:block;width:100%;min-height:130px;resize:vertical;padding:12px 14px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);font:14px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.lesson-notes-input:focus{outline:2px solid var(--blue);outline-offset:2px}
+.notes-save-status{font-size:12px;color:var(--muted);white-space:nowrap}
+.lesson-notes-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.lesson-notes-actions .notes-clear{background:var(--panel);color:var(--ink);border-color:var(--line)}
